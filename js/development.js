@@ -3,23 +3,23 @@
 (function() {
   class EditableList extends HTMLElement {
     constructor() {
-      // establish prototype chain
-      super();
+      // Always call super first in constructor to establish prototype chain
+      super()
 
       // attaches shadow tree and returns shadow root reference
       // https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
-      const shadow = this.attachShadow({ mode: 'open' });
+      const shadow = this.attachShadow({ mode: 'open' })
 
       // creating a container for the editable-list component
-      const editableListContainer = document.createElement('div');
+      const editableListContainer = document.createElement('div')
 
       // get attribute values from getters
-      const title = this.title;
-      const addItemText = this.addItemText;
-      const listItems = this.items;
+      const heading = this.heading
+      const addItemText = this.addItemText
+      const listItems = this.items
 
       // adding a class to our container for the sake of clarity
-      editableListContainer.classList.add('editable-list', 'hello');
+      editableListContainer.classList.add('todoComponentWrapper', 'hello')
 
       // creating the inner HTML of the editable list element
       editableListContainer.innerHTML = `
@@ -34,7 +34,7 @@
             justify-content: space-between;
           }
 
-          .listIcon {
+          .todoListItemBtn {
             background-color: var(--listIconBgCol);
             border: var(--listIconBorder);
             cursor: pointer;
@@ -46,68 +46,69 @@
             color: var(--red)
           }
         </style>
-        <h3>${title}</h3>
-        <ul class="item-list">
+        <h3 class="todoHeading">${heading}</h3>
+        <ul class="todoListWrapper">
           ${listItems.map(item => `
             <li>${item}
-              <button class="editable-list-remove-item listIcon">&ominus;</button>
+              <button class="todoListItemBtnRemove todoListItemBtn">&ominus;</button>
             </li>
           `).join('')}
         </ul>
+        <slot></slot>
         <div>
           <label>${addItemText}</label>
-          <input class="add-new-list-item-input" type="text">
-          <button class="editable-list-add-item listIcon">&oplus;</button>
+          <input class="todoListItemAddInput" type="text">
+          <button class="todoListItemBtnAdd todoListItemBtn">&oplus;</button>
         </div>
       `;
 
 
 
       // binding methods
-      this.addListItem = this.addListItem.bind(this);
-      this.handleRemoveItemListeners = this.handleRemoveItemListeners.bind(this);
-      this.removeListItem = this.removeListItem.bind(this);
+      this.addListItem = this.addListItem.bind(this)
+      this.handleRemoveItemListeners = this.handleRemoveItemListeners.bind(this)
+      this.removeListItem = this.removeListItem.bind(this)
 
       // appending the container to the shadow DOM
-      shadow.appendChild(editableListContainer);
+      shadow.appendChild(editableListContainer)
     }
 
     // add items to the list
     addListItem(e) {
-      const textInput = this.shadowRoot.querySelector('.add-new-list-item-input');
+      const textInput = this.shadowRoot.querySelector('.todoListItemAddInput')
 
       if (textInput.value) {
-        const li = document.createElement('li');
-        const button = document.createElement('button');
-        const childrenLength = this.itemList.children.length;
+        const li = document.createElement('li')
+        const button = document.createElement('button')
+        const childrenLength = this.itemList.children.length
 
-        li.textContent = textInput.value;
-        button.classList.add('editable-list-remove-item', 'listIcon');
-        button.innerHTML = '&ominus;';
+        li.textContent = textInput.value
+        button.classList.add('todoListItemBtnRemove', 'todoListItemBtn')
+        button.innerHTML = '&ominus;'
 
-        this.itemList.appendChild(li);
-        this.itemList.children[childrenLength].appendChild(button);
+        this.itemList.appendChild(li)
+        this.itemList.children[childrenLength].appendChild(button)
 
-        this.handleRemoveItemListeners([button]);
+        this.handleRemoveItemListeners([button])
 
-        textInput.value = '';
+        textInput.value = ''
       }
     }
 
     // fires after the element has been attached to the DOM
     connectedCallback() {
-      const removeElementButtons = [...this.shadowRoot.querySelectorAll('.editable-list-remove-item')];
-      const addElementButton = this.shadowRoot.querySelector('.editable-list-add-item');
+      const removeElementButtons = [...this.shadowRoot.querySelectorAll('.todoListItemBtnRemove')]
+      const addElementButton = this.shadowRoot.querySelector('.todoListItemBtnAdd')
 
-      this.itemList = this.shadowRoot.querySelector('.item-list');
+      this.itemList = this.shadowRoot.querySelector('.todoListWrapper')
 
-      this.handleRemoveItemListeners(removeElementButtons);
-      addElementButton.addEventListener('click', this.addListItem, false);
+      this.handleRemoveItemListeners(removeElementButtons)
+      addElementButton.addEventListener('click', this.addListItem, false)
     }
 
     // gathering data from element attributes
-    get title() {
-      return this.getAttribute('title') || '';
+    get heading() {
+      return this.getAttribute('heading') || ''
     }
 
     get items() {
@@ -115,28 +116,28 @@
 
       [...this.attributes].forEach(attr => {
         if (attr.name.includes('list-item')) {
-          items.push(attr.value);
+          items.push(attr.value)
         }
-      });
+      })
 
-      return items;
+      return items
     }
 
     get addItemText() {
-      return this.getAttribute('add-item-text') || '';
+      return this.getAttribute('add-item-text') || ''
     }
 
     handleRemoveItemListeners(arrayOfElements) {
       arrayOfElements.forEach(element => {
-        element.addEventListener('click', this.removeListItem, false);
-      });
+        element.addEventListener('click', this.removeListItem, false)
+      })
     }
 
     removeListItem(e) {
-      e.target.parentNode.remove();
+      e.target.parentNode.remove()
     }
   }
 
   // let the browser know about the custom element
-  customElements.define('editable-list', EditableList);
-})();
+  customElements.define('editable-list', EditableList)
+})()
