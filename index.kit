@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple Editable List Web Component</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/production.css">
+  </head>
+  <body>
+    <div class="containerPadded">
+      <div class="editableListWrapper">
+        <editable-list
+          title="TODO"
+          list-item-0="First item on the list"
+          list-item-1="Second item on the list"
+          list-item-2="Third item on the list"
+          list-item-3="Fourth item on the list"
+          list-item-4="Fifth item on the list"
+          listItem="This will not appear"
+          add-item-text="Add new list item:"
+      >
+      This is a child slot.
+        </editable-list>
+    </div>
+    <script src="./js/development.js"></script>
+  </body>
+</html>
