@@ -11,8 +11,16 @@
   --blue: #428fbd;
   --red: #ff5722;
   --purple: #734f79;
+  --listHeadingCol: var(--blue);
+  --listWrapperPadding: 0;
+  --listWrapperMargin: 20px 0;
+  --listWrapperBorder: none;
+  --listWrapperRadius: 5px;
+  --listWrapperShadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  --listWrapperBg: white;
   --listIconBgCol: none;
-  --listIconBorder: none
+  --listIconBorder: none;
+  --listIconSize: 1.8rem;
 }
 
 *,

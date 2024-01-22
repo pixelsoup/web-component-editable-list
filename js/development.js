@@ -28,34 +28,49 @@
             // border: 10px solid red;
           }
 
-          li, div > div {
+          .todoHeading {
+            color: var(--listHeadingCol);
+          }
+
+          .todoListWrapper {
+            padding: var(--listWrapperPadding);
+            margin: var(--listWrapperMargin);
+            border: var(--listWrapperBorder);
+            border-radius: var(--listWrapperRadius);
+            box-shadow: var(--listWrapperShadow);
+            background: var(--listWrapperBg);
+
+          }
+
+          .todoListItem {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 5px;
+
+            & + .todoListItem {
+              border-top: 1px solid red;
+            }
           }
 
           .todoListItemBtn {
+            font-size: var(--listIconSize);
+            cursor: pointer;
             background-color: var(--listIconBgCol);
             border: var(--listIconBorder);
-            cursor: pointer;
-            float: right;
-            font-size: 1.8rem;
-          }
-
-          h3 {
-            color: var(--red)
           }
         </style>
+
         <h3 class="todoHeading">${heading}</h3>
         <ul class="todoListWrapper">
           ${listItems.map(item => `
-            <li>${item}
+            <li class="todoListItem">${item}
               <button class="todoListItemBtnRemove todoListItemBtn">&ominus;</button>
             </li>
           `).join('')}
         </ul>
         <slot></slot>
-        <div>
+        <div class="todoListItem tdlAddInputWrapper">
           <label>${addItemText}</label>
           <input class="todoListItemAddInput" type="text">
           <button class="todoListItemBtnAdd todoListItemBtn">&oplus;</button>
@@ -78,15 +93,16 @@
       const textInput = this.shadowRoot.querySelector('.todoListItemAddInput')
 
       if (textInput.value) {
-        const li = document.createElement('li')
+        const listItem = document.createElement('li')
+        listItem.classList.add('todoListItem');
         const button = document.createElement('button')
         const childrenLength = this.itemList.children.length
 
-        li.textContent = textInput.value
+        listItem.textContent = textInput.value
         button.classList.add('todoListItemBtnRemove', 'todoListItemBtn')
         button.innerHTML = '&ominus;'
 
-        this.itemList.appendChild(li)
+        this.itemList.appendChild(listItem)
         this.itemList.children[childrenLength].appendChild(button)
 
         this.handleRemoveItemListeners([button])

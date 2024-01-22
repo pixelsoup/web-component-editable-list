@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/production.css">
+    <script type="module" href="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
   </head>
   <body>
     <div class="containerPadded">
@@ -17,11 +18,12 @@
           list-item-2="Third item on the list"
           list-item-3="Fourth item on the list"
           list-item-4="Fifth item on the list"
-          listItem="This will not appear"
+          listItem="This will not appear because the js looks for attr.name.includes('list-item')"
           add-item-text="Add new list item:"
       >
       This is a child slot.
         </editable-list>
+      </div>
     </div>
     <script src="./js/development.js"></script>
   </body>
